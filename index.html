@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NSW Student News Community</title>
     
-    <!-- Load Google Fonts (Inter) for clean, highly legible modern typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Load Tailwind CSS via CDN for utility-first styling and rapid UI development -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Configure Tailwind theme to include our custom brand colors -->
     <script>
         tailwind.config = {
             theme: {
@@ -21,29 +17,13 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
-                    colors: {
-                        nsnc: {
-                            black: '#050505',
-                            dark: '#111111',
-                            yellow: '#fbbf24',
-                            red: '#ef4444',
-                            purple: '#a855f7',
-                            blue: '#3b82f6'
-                        }
-                    },
                     animation: {
-                        'scrolling-text': 'scroll 30s linear infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
-                        scroll: {
-                            '0%': { transform: 'translateX(100%)' },
-                            '100%': { transform: 'translateX(-100%)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
@@ -52,135 +32,51 @@
     </script>
 
     <style>
-        /* Base Resets & Variables */
-        :root {
-            --gradient-brand: linear-gradient(to right, #fbbf24, #ef4444, #a855f7, #3b82f6);
-        }
-
         body {
-            background-color: #050505;
-            color: #ffffff;
+            /* Black and gray gradient background fixed to the viewport */
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            background-attachment: fixed;
+            color: #FFFFFF;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Custom Scrollbar for a premium feel */
+        /* Minimalist Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #050505;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 5px;
+            background: #333333;
+            border-radius: 9999px; /* Pill shape scrollbar */
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #555555;
         }
 
-        /* Glassmorphism Utilities */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        /* Smooth FAQ expansion */
+        .faq-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+        .faq-content.open {
+            grid-template-rows: 1fr;
+        }
+        .faq-inner {
+            overflow: hidden;
         }
 
-        .glass-nav {
-            background: rgba(5, 5, 5, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Brand Gradient Text */
-        .text-gradient {
-            background: var(--gradient-brand);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
-
-        /* Static Gradient Ring Matching the Image */
-        .gradient-ring {
-            background: conic-gradient(
-                from 0deg, 
-                #fbbf24 0deg,   /* Yellow Top */
-                #ef4444 90deg,  /* Red Right */
-                #3b82f6 180deg, /* Blue Bottom */
-                #a855f7 270deg, /* Purple Left */
-                #fbbf24 360deg
-            );
-            border-radius: 50%;
-            padding: 3px; 
-            display: inline-block;
-        }
-
-        .gradient-inner {
-            background-color: #050505;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Advanced Button Styles */
-        .btn-gradient-border {
-            position: relative;
-            background: transparent;
-            border-radius: 9999px;
-            padding: 2px;
-            display: inline-flex;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn-gradient-border::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 9999px;
-            background: var(--gradient-brand);
-            z-index: -1;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-gradient-border .btn-inner {
-            background-color: #111;
-            border-radius: 9999px;
-            padding: 0.75rem 2rem;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            transition: background-color 0.3s ease;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.025em;
-        }
-
-        .btn-gradient-border:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.5);
-        }
-        
-        .btn-gradient-border:hover .btn-inner {
-            background-color: transparent;
-        }
-
-        /* Utility for fade-in on scroll */
+        /* Utility for intersection observer fade-up */
         .fade-up-element {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .fade-up-element.visible {
             opacity: 1;
@@ -188,197 +84,183 @@
         }
     </style>
 </head>
-<body class="antialiased selection:bg-nsnc-purple selection:text-white relative">
+<body class="antialiased selection:bg-white selection:text-black">
 
-    <nav class="glass-nav fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="fixed w-full top-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/5 transition-all" id="navbar">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo & Brand Name -->
-                <div class="flex items-center gap-4 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <span class="font-bold text-xl tracking-tight text-gradient pb-1">NSW Student News Community</span>
+                
+                <!-- Brand Name (Logo removed) -->
+                <div class="flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="font-medium text-lg tracking-tight text-white">NSW Student News Community</span>
                 </div>
                 
-                <!-- Desktop Navigation Links -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#hero" class="text-sm font-medium text-gray-300 hover:text-white hover:text-nsnc-yellow transition-colors">Home</a>
-                    <a href="#about" class="text-sm font-medium text-gray-300 hover:text-white hover:text-nsnc-blue transition-colors">About Us</a>
-                    <a href="#contact" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-sm font-semibold">Contact</a>
+                <!-- Desktop Navigation Links (Pill shaped hover effects) -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="#hero" class="px-4 py-2 rounded-full text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">Home</a>
+                    <a href="#about" class="px-4 py-2 rounded-full text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">About Us</a>
+                    <a href="#contact" class="px-4 py-2 rounded-full text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">Contact</a>
+                    <a href="https://docs.google.com/forms/d/1tXuOJiP6PkPAKsR5Vu6sNG9jOH4SAL6Yv7H1OBqgeVA/edit" target="_blank" class="ml-4 px-6 py-2.5 rounded-full bg-white text-black hover:bg-gray-200 transition-colors text-sm font-medium">Apply</a>
                 </div>
 
                 <!-- Mobile Menu Hamburger Button -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <button id="mobile-menu-btn" class="text-white p-2 rounded-full hover:bg-white/10 transition-colors">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown (Initially Hidden) -->
-        <div id="mobile-menu" class="md:hidden hidden bg-nsnc-dark border-t border-white/10 absolute w-full left-0 shadow-2xl">
-            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
-                <a href="#hero" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">Home</a>
-                <a href="#about" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">About NSNC</a>
-                <a href="#contact" class="mobile-link block px-3 py-3 mt-4 rounded-md text-center text-base font-medium bg-nsnc-blue text-white hover:bg-blue-600">Contact Admins</a>
+        <div id="mobile-menu" class="md:hidden hidden bg-black/95 backdrop-blur-xl border-b border-white/10 absolute w-full left-0">
+            <div class="px-6 py-8 flex flex-col space-y-4">
+                <a href="#hero" class="mobile-link px-4 py-3 rounded-2xl text-gray-300 hover:text-white hover:bg-white/5 transition-colors">Home</a>
+                <a href="#about" class="mobile-link px-4 py-3 rounded-2xl text-gray-300 hover:text-white hover:bg-white/5 transition-colors">About NSNC</a>
+                <a href="#contact" class="mobile-link px-4 py-3 rounded-2xl text-gray-300 hover:text-white hover:bg-white/5 transition-colors">Contact Admins</a>
+                <a href="https://docs.google.com/forms/d/1tXuOJiP6PkPAKsR5Vu6sNG9jOH4SAL6Yv7H1OBqgeVA/edit" target="_blank" class="mobile-link inline-flex justify-center w-full px-5 py-3.5 rounded-full bg-white text-black font-medium mt-2">Apply for Admin</a>
             </div>
         </div>
     </nav>
 
-    <main class="relative pt-32 pb-16 sm:pt-40 sm:pb-24 lg:pb-32 flex flex-col justify-center min-h-[85vh] bg-nsnc-black" id="hero">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <main class="relative pt-40 pb-20 sm:pt-48 sm:pb-32 flex flex-col justify-center min-h-screen" id="hero">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 flex flex-col items-center text-center">
             
-            <!-- Clean Minimal Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 text-xs sm:text-sm font-medium mb-8 text-gray-400 bg-nsnc-dark">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                </span>
-                Daily verified facts & concise summaries
-            </div>
-
             <!-- Massive Hero Title -->
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
-                <span class="block text-white mb-2">NSW Student</span>
-                <span class="block text-gray-300 pb-2">News Community</span>
+            <h1 class="text-5xl sm:text-7xl font-semibold tracking-tighter mb-8 leading-[1.1] animate-fade-in-up">
+                <span class="block text-gray-400">NSW Student</span>
+                <span class="block text-white">News Community.</span>
             </h1>
             
             <!-- Descriptive Subtitle -->
-            <p class="mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-                A non-profit community providing verified, factual reporting for students across NSW. Stay informed on global and Australian events without the clutter.
+            <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s;">
+                A non-profit organisation proudly created and operated by Year 8 and 9 students. We provide verified factual reporting for students across NSW to help you stay informed on global and Australian events without the clutter.
             </p>
 
-            <!-- Call to Action Buttons -->
-            <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <!-- Primary Action: Join WhatsApp -->
-                <a href="https://whatsapp.com/channel/0029Vb7Ap2c2ZjCn8ObgKp15" target="_blank" class="btn-gradient-border w-full sm:w-auto">
-                    <div class="btn-inner text-white">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.031 0C5.405 0 0 5.404 0 12.03c0 2.122.553 4.195 1.606 6.012L.15 23.518l5.626-1.476a11.96 11.96 0 006.255 1.745c6.626 0 12.03-5.404 12.03-12.03C24 5.404 18.657 0 12.031 0zm0 21.734c-1.802 0-3.568-.484-5.114-1.402l-.367-.217-3.8.997.98-3.7-.238-.38c-1.006-1.605-1.536-3.46-1.536-5.385C2.006 6.533 6.48 2.054 12.03 2.054c5.55 0 10.025 4.48 10.025 10.025 0 5.55-4.475 10.025-10.025 10.025zm5.5-7.53c-.302-.15-1.786-.883-2.064-.985-.278-.102-.482-.152-.684.15-.202.302-.784.985-.96.1186-.178.203-.356.228-.658.077-1.47-.738-2.585-1.442-3.32-2.7-.178-.303-.018-.466.133-.617.136-.135.302-.352.453-.528.15-.177.202-.303.303-.505.102-.202.05-.38-.025-.53-.076-.15-.684-1.65-.937-2.257-.246-.593-.497-.513-.684-.522-.178-.008-.38-.01-.582-.01-.202 0-.53.076-.807.38-.277.303-1.06 1.036-1.06 2.527 0 1.492 1.085 2.934 1.236 3.136.152.203 2.138 3.262 5.176 4.57 1.84.795 2.628.847 3.59.71 1.05-.15 2.875-1.176 3.278-2.31.403-1.135.403-2.11.282-2.313-.12-.204-.427-.305-.73-.456z"/>
-                        </svg>
-                        Join WhatsApp Channel
-                    </div>
+            <!-- Call to Action Buttons (Pill Shapes) -->
+            <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto animate-fade-in-up" style="animation-delay: 0.2s;">
+                <a href="https://whatsapp.com/channel/0029Vb7Ap2c2ZjCn8ObgKp15" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black hover:bg-gray-200 transition-transform hover:scale-105 font-medium flex items-center justify-center gap-3">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.031 0C5.405 0 0 5.404 0 12.03c0 2.122.553 4.195 1.606 6.012L.15 23.518l5.626-1.476a11.96 11.96 0 006.255 1.745c6.626 0 12.03-5.404 12.03-12.03C24 5.404 18.657 0 12.031 0zm0 21.734c-1.802 0-3.568-.484-5.114-1.402l-.367-.217-3.8.997.98-3.7-.238-.38c-1.006-1.605-1.536-3.46-1.536-5.385C2.006 6.533 6.48 2.054 12.03 2.054c5.55 0 10.025 4.48 10.025 10.025 0 5.55-4.475 10.025-10.025 10.025zm5.5-7.53c-.302-.15-1.786-.883-2.064-.985-.278-.102-.482-.152-.684.15-.202.302-.784.985-.96.1186-.178.203-.356.228-.658.077-1.47-.738-2.585-1.442-3.32-2.7-.178-.303-.018-.466.133-.617.136-.135.302-.352.453-.528.15-.177.202-.303.303-.505.102-.202.05-.38-.025-.53-.076-.15-.684-1.65-.937-2.257-.246-.593-.497-.513-.684-.522-.178-.008-.38-.01-.582-.01-.202 0-.53.076-.807.38-.277.303-1.06 1.036-1.06 2.527 0 1.492 1.085 2.934 1.236 3.136.152.203 2.138 3.262 5.176 4.57 1.84.795 2.628.847 3.59.71 1.05-.15 2.875-1.176 3.278-2.31.403-1.135.403-2.11.282-2.313-.12-.204-.427-.305-.73-.456z"/>
+                    </svg>
+                    Join WhatsApp Channel
                 </a>
-
-                <!-- Secondary Action: Admin Application -->
-                <a href="https://docs.google.com/forms/d/1tXuOJiP6PkPAKsR5Vu6sNG9jOH4SAL6Yv7H1OBqgeVA/edit" target="_blank" class="w-full sm:w-auto px-8 py-3 rounded-full border border-white/10 bg-nsnc-dark hover:bg-white/5 text-gray-300 hover:text-white text-sm font-semibold transition-all flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                
+                <a href="https://docs.google.com/forms/d/1tXuOJiP6PkPAKsR5Vu6sNG9jOH4SAL6Yv7H1OBqgeVA/edit" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-all font-medium flex items-center justify-center gap-3">
                     Apply for Admin
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
             </div>
         </div>
     </main>
 
-    <section id="about" class="py-24 relative z-10 bg-nsnc-black">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
+    <section id="about" class="py-32">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
                 
-                <!-- Text Content -->
                 <div class="fade-up-element">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-6">Built by students, <br><span class="text-gray-300">for students.</span></h2>
-                    <p class="text-gray-300 text-lg leading-relaxed mb-6 font-light">
-                        NSW Student News Community is a non-profit, small community consisting of over 2000 members with 12 volunteer admins to provide news to students who don't have time or cannot be bothered to check global news daily.
-                    </p>
-                    <p class="text-gray-300 text-lg leading-relaxed mb-8 font-light">
-                        We curate and provide multiple different types of news which includes major global and Australian incidents, sport, music, technology, as well as other information that is important for students.
-                    </p>
+                    <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-8">
+                        Built by students, <br><span class="text-gray-400">for students.</span>
+                    </h2>
+                    <div class="space-y-6 text-lg text-gray-300 font-light leading-relaxed mb-10">
+                        <p>
+                            NSW Student News Community is a non-profit organisation consisting of over 2000 members. We are proudly led by a dedicated team of 12 volunteer admins all in Year 8 and Year 9 who provide news to students who do not have time or cannot be bothered to check global news daily.
+                        </p>
+                        <p>
+                            We curate and provide multiple different types of news which includes major global and Australian incidents, sport, music, technology, as well as other information that is important for students.
+                        </p>
+                    </div>
                     
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-200">
-                            <svg class="w-6 h-6 text-nsnc-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            100% Volunteer Operated
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-4 text-white">
+                            <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></div>
+                            <span class="font-light">100% Volunteer Operated</span>
                         </li>
-                        <li class="flex items-center gap-3 text-gray-200">
-                            <svg class="w-6 h-6 text-nsnc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Majorly Sourced from 9 News, BBC, ABC, & News.com.au
+                        <li class="flex items-start gap-4 text-white">
+                            <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></div>
+                            <span class="font-light">Majorly Sourced from 9 News, BBC, ABC & News.com.au</span>
                         </li>
-                        <li class="flex items-center gap-3 text-gray-200">
-                            <svg class="w-6 h-6 text-nsnc-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Zero Advertisements, Zero Bias
+                        <li class="flex items-start gap-4 text-white">
+                            <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></div>
+                            <span class="font-light">Zero Advertisements, Zero Bias</span>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Statistics Grid -->
-                <div class="grid grid-cols-2 gap-6 fade-up-element">
-                    <div class="glass-panel p-8 rounded-2xl text-center hover:bg-white/5 transition-colors border-t border-nsnc-yellow/50">
-                        <div class="text-5xl font-extrabold text-white mb-2" id="stat-students">0</div>
-                        <div class="text-gray-400 text-sm font-medium uppercase tracking-wider">Active Students</div>
+                <div class="grid grid-cols-2 gap-4 sm:gap-6 fade-up-element">
+                    <div class="bg-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-[2rem] border border-white/20 shadow-2xl transform transition-transform hover:-translate-y-1">
+                        <div class="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-2" id="stat-students">0</div>
+                        <div class="text-gray-300 text-sm font-medium tracking-wide">Active Students</div>
                     </div>
-                    <div class="glass-panel p-8 rounded-2xl text-center hover:bg-white/5 transition-colors border-t border-nsnc-red/50">
-                        <div class="text-5xl font-extrabold text-white mb-2" id="stat-admins">0</div>
-                        <div class="text-gray-400 text-sm font-medium uppercase tracking-wider">Volunteer Admins</div>
+                    <div class="bg-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-[2rem] border border-white/20 shadow-2xl transform transition-transform hover:-translate-y-1">
+                        <div class="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-2" id="stat-admins">0</div>
+                        <div class="text-gray-300 text-sm font-medium tracking-wide">Volunteer Admins</div>
                     </div>
-                    <div class="glass-panel p-8 rounded-2xl text-center hover:bg-white/5 transition-colors border-t border-nsnc-purple/50">
-                        <div class="text-5xl font-extrabold text-white mb-2" id="stat-schools">0</div>
-                        <div class="text-gray-400 text-sm font-medium uppercase tracking-wider">NSW Schools</div>
+                    <div class="bg-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-[2rem] border border-white/20 shadow-2xl transform transition-transform hover:-translate-y-1">
+                        <div class="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-2" id="stat-schools">0</div>
+                        <div class="text-gray-300 text-sm font-medium tracking-wide">NSW Schools</div>
                     </div>
-                    <div class="glass-panel p-8 rounded-2xl text-center hover:bg-white/5 transition-colors border-t border-nsnc-blue/50">
-                        <div class="text-5xl font-extrabold text-white mb-2" id="stat-news">0</div>
-                        <div class="text-gray-400 text-sm font-medium uppercase tracking-wider">Weekly Posts</div>
+                    <div class="bg-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-[2rem] border border-white/20 shadow-2xl transform transition-transform hover:-translate-y-1">
+                        <div class="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-2" id="stat-news">0</div>
+                        <div class="text-gray-300 text-sm font-medium tracking-wide">Weekly Posts</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 bg-nsnc-black relative z-10 border-t border-white/5">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <section class="py-32">
+        <div class="max-w-3xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-16 fade-up-element">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-                <p class="text-gray-400">Everything you need to know about the NSNC platform.</p>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Frequently Asked Questions</h2>
+                <p class="text-gray-400 text-lg font-light">Everything you need to know about the NSNC platform.</p>
             </div>
             
-            <div class="space-y-4" id="faq-container">
+            <div class="space-y-4 fade-up-element" id="faq-container">
                 <!-- FAQ Items injected via JS -->
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-24 relative z-10 bg-nsnc-black border-t border-white/5">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="border border-white/5 bg-[#0a0a0a] rounded-2xl p-8 sm:p-12 text-center fade-up-element">
-                <div class="space-y-4 relative z-10 mb-10">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gradient pb-2">Contact Administration</h2>
-                    <p class="text-gray-300 font-light max-w-xl mx-auto">
-                        For official inquiries, corrections, or if you wish to apply to become a volunteer admin for the NSW Student News Community, please reach out via our official support channel.
-                    </p>
-                </div>
+    <section id="contact" class="py-32">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <div class="text-center fade-up-element bg-white/5 backdrop-blur-lg border border-white/10 rounded-[3rem] p-10 sm:p-16">
+                <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight mb-6">Contact Administration</h2>
+                <p class="text-gray-300 font-light text-lg max-w-2xl mx-auto mb-12">
+                    For official inquiries, corrections, or if you wish to apply to become a volunteer admin for the NSW Student News Community, please reach out via our official support channel.
+                </p>
 
-                <!-- Support Email Display Container -->
-                <div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <div class="bg-black/50 border border-white/10 rounded-lg px-6 py-4 flex items-center gap-4 w-full sm:w-auto">
-                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path></svg>
-                        <span class="text-white font-mono text-lg tracking-wide select-all" id="contact-email">Support.hl8006@gmail.com</span>
+                <div class="inline-flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+                    <div class="px-8 py-4 flex items-center gap-3 bg-black/40 border border-white/10 rounded-full w-full sm:w-auto">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span class="text-white font-medium tracking-wide select-all" id="contact-email">Support.hl8006@gmail.com</span>
                     </div>
                     
-                    <button onclick="copyEmail()" class="btn-gradient-border w-full sm:w-auto" id="copy-btn">
-                        <div class="btn-inner text-white">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            Copy Email
-                        </div>
+                    <!-- Pill shaped copy button -->
+                    <button onclick="copyEmail()" class="w-full sm:w-auto px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-gray-200 transition-colors flex items-center justify-center gap-2" id="copy-btn">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        <span id="copy-text">Copy Email</span>
                     </button>
                 </div>
                 
-                <p class="text-xs text-gray-500 mt-8 relative z-10">Legal Entity declared as: HL8006 / NSW Student News Community</p>
+                <p class="text-sm text-gray-500 mt-12">Legal Entity declared as: HL8006 / NSW Student News Community (Non-Profit)</p>
             </div>
         </div>
     </section>
 
-    <footer class="bg-nsnc-black py-12 border-t border-white/10 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-3">
-                <svg viewBox="0 0 24 24" fill="none" class="w-8 h-8 text-white"><path d="M19 3H9C7.89543 3 7 3.89543 7 5V19C7 20.1046 7.89543 21 9 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" stroke-width="2"/><path d="M7 7H5C3.89543 7 3 7.89543 3 9V19C3 20.1046 3.89543 21 5 21H7" stroke="currentColor" stroke-width="2"/><path d="M11 7H17" stroke="currentColor" stroke-width="2"/><path d="M11 11H17" stroke="currentColor" stroke-width="2"/></svg>
+    <footer class="py-12 border-t border-white/5 bg-black/20 backdrop-blur-lg">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-4 text-center md:text-left">
                 <div>
-                    <h3 class="font-bold text-lg">NSW Student News Community</h3>
-                    <p class="text-xs text-gray-500">Operated by HL8006 & Volunteers</p>
+                    <h3 class="font-medium text-white">NSW Student News Community</h3>
+                    <p class="text-sm text-gray-400 mt-1">Operated by Year 8 & 9 Volunteers (HL8006)</p>
                 </div>
             </div>
             
             <div class="text-center md:text-right">
-                <p class="text-gray-400 text-sm mb-2">Providing verified facts since 2024.</p>
-                <p class="text-gray-500 text-xs">&copy; 2026 NSW Student News Community. All rights reserved.</p>
+                <p class="text-gray-400 text-sm mb-1">Providing verified facts since 2024.</p>
+                <p class="text-[#666] text-xs">&copy; 2026 NSW Student News Community. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -387,15 +269,15 @@
         const faqData = [
             {
                 question: "How do I become a volunteer admin?",
-                answer: "We periodically open applications for motivated NSW students to join our 12-person admin team. You must have a strong grasp of factual reporting, excellent grammar, and the ability to summarize complex topics. You can apply using the 'Apply for Admin' button at the top of the page!"
+                answer: "We periodically open applications for motivated NSW students to join our 12-person admin team. You must have a strong grasp of factual reporting, excellent grammar, and the ability to summarise complex topics. You can apply using the 'Apply for Admin' button at the top of the page!"
             },
             {
                 question: "How do you verify your news sources?",
-                answer: "Our team strictly cross-references information across major networks such as 9 News, BBC, ABC, and News.com.au. We never publish rumors or unverified social media claims, ensuring students get only the facts."
+                answer: "Our team strictly cross-references information across major networks such as 9 News, BBC, ABC, and News.com.au. We never publish rumours or unverified social media claims, ensuring students get only the facts."
             },
             {
                 question: "Is this platform really free?",
-                answer: "Yes. NSW Student News Community is a 100% non-profit community initiative. We do not run advertisements, and we do not charge subscription fees. Our goal is simply to keep students informed."
+                answer: "Yes. NSW Student News Community is a 100% non-profit organisation and community initiative. We do not run advertisements, and we do not charge subscription fees. Our goal is simply to keep students informed."
             },
             {
                 question: "What type of news do you cover?",
@@ -408,14 +290,19 @@
             let html = '';
             
             faqData.forEach((faq, index) => {
+                // Fully rounded FAQ cards
                 html += `
-                    <div class="glass-panel rounded-lg overflow-hidden border border-white/5 transition-all duration-300">
-                        <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(${index})">
-                            <span class="font-semibold text-lg">${faq.question}</span>
-                            <svg id="faq-icon-${index}" class="w-5 h-5 text-gray-400 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <div class="bg-white/5 rounded-3xl border border-white/10 overflow-hidden transition-colors hover:bg-white/10">
+                        <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none group" onclick="toggleFaq(${index})">
+                            <span class="font-medium text-lg text-white group-hover:text-gray-200 transition-colors">${faq.question}</span>
+                            <svg id="faq-icon-${index}" class="w-5 h-5 text-gray-400 transform transition-transform duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
-                        <div id="faq-content-${index}" class="px-6 py-0 max-h-0 overflow-hidden transition-all duration-300 opacity-0 bg-black/30">
-                            <p class="py-4 text-gray-300 font-light leading-relaxed">${faq.answer}</p>
+                        <div id="faq-content-${index}" class="faq-content">
+                            <div class="faq-inner px-8">
+                                <p class="pb-8 text-gray-300 font-light leading-relaxed">${faq.answer}</p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -427,28 +314,24 @@
             const content = document.getElementById(`faq-content-${index}`);
             const icon = document.getElementById(`faq-icon-${index}`);
             
-            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                content.style.maxHeight = '0px';
-                content.style.opacity = '0';
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
                 icon.style.transform = 'rotate(0deg)';
             } else {
-                content.style.maxHeight = content.scrollHeight + 'px';
-                content.style.opacity = '1';
+                content.classList.add('open');
                 icon.style.transform = 'rotate(180deg)';
             }
         }
 
-        // Copy to clipboard utility (Using execCommand for supreme compatibility)
+        // Copy to clipboard utility
         function copyEmail() {
             const emailText = document.getElementById('contact-email').innerText;
             
             let textArea = document.createElement("textarea");
             textArea.value = emailText;
             textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            textArea.style.top = "-999999px";
+            textArea.style.opacity = "0";
             document.body.appendChild(textArea);
-            textArea.focus();
             textArea.select();
             
             try {
@@ -457,7 +340,6 @@
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
             }
-            
             textArea.remove();
         }
 
@@ -465,11 +347,13 @@
         function showCopySuccess() {
             if (isCopying) return;
             isCopying = true;
-            const btn = document.getElementById('copy-btn');
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = `<div class="btn-inner text-[#25D366]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Copied!</div>`;
+            const btnText = document.getElementById('copy-text');
+            const originalText = btnText.innerText;
+            
+            btnText.innerText = 'Copied!';
+            
             setTimeout(() => {
-                btn.innerHTML = originalContent;
+                btnText.innerText = originalText;
                 isCopying = false;
             }, 2000);
         }
@@ -482,19 +366,17 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Close mobile menu on link click
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
 
-
-        // Intersection Observer for fade-up animations
+        // Intersection Observer for fade-up animations & counter trigger
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.1
+            threshold: 0.15
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -502,7 +384,6 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                     
-                    // Trigger counters if this is the stats section
                     if (entry.target.querySelector('#stat-students') && !entry.target.dataset.counted) {
                         entry.target.dataset.counted = "true";
                         animateCounter('stat-students', 2000, 2000, '+');
@@ -518,7 +399,9 @@
         function animateCounter(id, target, duration, suffix) {
             const element = document.getElementById(id);
             let start = 0;
-            const increment = target / (duration / 16); // 60fps approx
+            const fps = 60;
+            const frames = duration / (1000 / fps);
+            const increment = target / frames;
             
             function update() {
                 start += increment;
@@ -532,26 +415,10 @@
             update();
         }
 
-        // Apply observer to all fade elements
         document.addEventListener("DOMContentLoaded", () => {
-            // Render content first
             renderFAQ();
-
-            // Observe elements
             document.querySelectorAll('.fade-up-element').forEach(el => {
                 observer.observe(el);
-            });
-
-            // Navbar scroll effect
-            window.addEventListener('scroll', () => {
-                const nav = document.getElementById('navbar');
-                if (window.scrollY > 50) {
-                    nav.classList.add('shadow-lg', 'bg-nsnc-black/95');
-                    nav.classList.remove('bg-nsnc-black/70');
-                } else {
-                    nav.classList.remove('shadow-lg', 'bg-nsnc-black/95');
-                    nav.classList.add('bg-nsnc-black/70');
-                }
             });
         });
     </script>
